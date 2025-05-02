@@ -29,23 +29,24 @@ Backend da aplicação de gestão de laudos forenses odontológicos.
    Crie um arquivo `.env` na raiz com as seguintes informações:
 
    ```
-   SUPABASE_URL=your_supabase_url
-   SUPABASE_API_KEY=your_supabase_api_key
+   SUPABASE_URL='https://keimualjftjhdqjtljpq.supabase.co';
+   SUPABASE_API_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlaW11YWxqZnRqaGRxanRsanBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyNTg1NTcsImV4cCI6MjA2MDgzNDU1N30.5UFN41Oa1fL9doenNIGVM3pGymjPJTuKutnQj4GGUmw';
    ```
 
 4. **Inicie o servidor**
+   npm run dev
+      ou
    ```bash
    npm start
    ```
-
    Ou com nodemon:
    ```bash
    nodemon index.js
-   ```
 
+   
 5. **Servidor rodando em**
    ```
-   http://localhost:3000
+   http://localhost:3001
    ```
 
 ## 📂 Estrutura de Pastas

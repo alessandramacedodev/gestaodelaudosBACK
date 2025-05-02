@@ -1,35 +1,19 @@
 const express = require('express');
-const { createClient } = require('@supabase/supabase-js');
 const router = express.Router();
+const { createClient } = require('@supabase/supabase-js');
 
-// Conexão com o Supabase
+// Conexão com Supabase
 const supabaseUrl = 'https://keimualjftjhdqjtljpq.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlaW11YWxqZnRqaGRxanRsanBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyNTg1NTcsImV4cCI6MjA2MDgzNDU1N30.5UFN41Oa1fL9doenNIGVM3pGymjPJTuKutnQj4GGUmw';  
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlaW11YWxqZnRqaGRxanRsanBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyNTg1NTcsImV4cCI6MjA2MDgzNDU1N30.5UFN41Oa1fL9doenNIGVM3pGymjPJTuKutnQj4GGUmw';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Nome da tabela
-const tableName = 'users';
+const tableName = 'users'; // Nome da tabela no Supabase
 
-// Listar usuários com filtros por nome, email, perfil
+// Buscar todos os usuários
 router.get('/', async (req, res) => {
-  const { nome, email, perfil } = req.query;
-  let query = supabase.from(tableName).select('*');
-
-  if (nome) query = query.ilike('nome', `%${nome}%`);
-  if (email) query = query.ilike('email', `%${email}%`);
-  if (perfil) query = query.eq('perfil', perfil);
-
-  const { data, error } = await query;
-
+  const { data, error } = await supabase.from(tableName).select('*');
   if (error) return res.status(400).json({ error: error.message });
-
-  // Adiciona ações fictícias para cada usuário
-  const dataWithActions = data.map(user => ({
-    ...user,
-    acoes: ['visualizar', 'relatorio'],
-  }));
-
-  res.json(dataWithActions);
+  res.json(data);
 });
 
 // Buscar usuário por ID
@@ -46,19 +30,8 @@ router.get('/:id', async (req, res) => {
 
 // Criar novo usuário
 router.post('/', async (req, res) => {
-  const { nome, email, perfil, status } = req.body;
-
-  // Validação simples
-  if (!nome || !email || !perfil) {
-    return res.status(400).json({ error: 'Campos obrigatórios: nome, email, perfil' });
-  }
-
-  const { data, error } = await supabase
-    .from(tableName)
-    .insert([{ nome, email, perfil, status: status || 'pendente' }]);
-
+  const { data, error } = await supabase.from(tableName).insert([req.body]);
   if (error) return res.status(400).json({ error: error.message });
-
   res.status(201).json(data);
 });
 
@@ -75,13 +48,9 @@ router.put('/:id', async (req, res) => {
 
 // Deletar usuário
 router.delete('/:id', async (req, res) => {
-  const { data, error } = await supabase
-    .from(tableName)
-    .delete()
-    .eq('id', req.params.id);
-
+  const { error } = await supabase.from(tableName).delete().eq('id', req.params.id);
   if (error) return res.status(400).json({ error: error.message });
-  res.json(data);
+  res.status(204).send();
 });
 
 module.exports = router;
