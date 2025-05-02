@@ -22,6 +22,18 @@ app.use('/api/laudos', laudosRoutes);
 app.use('/api/banco', bancoRoutes);
 app.use('/api/config', configRoutes);
 
+// Rota de login (pode ser adaptada com lógica real)
+app.post('/login', (req, res) => {
+  const { email, senha } = req.body;
+
+  // Substitua com validação real de usuário
+  if (email === 'teste@email.com' && senha === '123456') {
+    return res.status(200).json({ mensagem: 'Login bem-sucedido' });
+  }
+
+  return res.status(401).json({ mensagem: 'Credenciais inválidas' });
+});
+
 // Rota inicial
 app.get('/', (req, res) => {
   res.send('🚀 API Rodando!');
