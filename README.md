@@ -47,6 +47,15 @@ Backend da aplicação de gestão de laudos forenses odontológicos.
 5. **Servidor rodando em**
    ```
    http://localhost:3001
+
+   Se não rodar:
+   netstat -ano | findstr :3001 clica enter
+   TCP    0.0.0.0:3001           0.0.0.0:0              LISTENING       12345 <-----coloque o numero que vai aparecer aqui  clica enter
+   taskkill /PID 12345 /F <-----coloque o numero após PID
+   npm run dev
+   
+
+
    ```
 
 ## 📂 Estrutura de Pastas
